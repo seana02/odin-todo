@@ -172,7 +172,8 @@ body * {
     background-color: #dddddd;
 }
 
-#new-todo-component {
+#new-todo-component,
+#edit-todo-component {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -183,7 +184,8 @@ body * {
     padding: 16px;
 }
 
-#new-todo-component.active {
+#new-todo-component.active,
+#edit-todo-component.active {
     transition: 0.3s;
     transform: translate(-50%, -50%) scale(1);
     z-index: 1;
@@ -197,7 +199,8 @@ body * {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.new-todo-header {
+.new-todo-header,
+.edit-todo-header {
     text-align: center;
     margin-top: 8px;
 }
@@ -206,15 +209,10 @@ form * {
     margin: 4px 0;
 }
 
-.name-label {
-    display: block;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 4px;
-}
-
 #name-input,
-#description-input {
+#description-input,
+#edit-name-input,
+#edit-description-input {
     font-size: 18px;
     width: 280px;
     padding: 10px;
@@ -223,14 +221,16 @@ form * {
     border-radius: 8px;
 }
 
-#due-input-label {
+#due-input-label,
+#edit-due-input-label {
     font-size: 18px;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-#due-input {
+#due-input,
+#edit-due-input {
     flex: 1;
     font-size: 18px;
     padding: 10px;

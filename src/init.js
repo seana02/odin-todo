@@ -125,6 +125,60 @@ export function todoDialogueComponent() {
     return dialogue;
 }
 
+export function editTodoComponent() {
+    const dialogue = document.createElement('div');
+    dialogue.id = 'edit-todo-component';
+
+    const header = document.createElement('h1');
+    header.classList.add('edit-todo-header');
+    header.innerText = 'Edit Todo Item';
+
+
+    dialogue.append(
+        header,
+        editForm()
+    );
+
+    return dialogue;
+}
+
+export function editForm() {
+    const form = document.createElement('form');
+    form.id = 'edit-todo-form';
+
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.id = 'edit-name-input';
+    nameInput.required = true;
+
+    const descInput = document.createElement('textarea');
+    descInput.id = 'edit-description-input';
+    descInput.rows = 2;
+
+    const dueInput = document.createElement('input');
+    dueInput.type = 'date';
+    dueInput.id = 'edit-due-input';
+    dueInput.required = true;
+    const dueLabel = document.createElement('label');
+    dueLabel.htmlFor = 'edit-due-input';
+    dueLabel.id = 'edit-due-input-label';
+    dueLabel.innerText = 'Due Date:';
+    dueLabel.append(dueInput);
+
+    const submit = document.createElement('button');
+    submit.type = 'submit';
+    submit.id = 'submit-button';
+    submit.innerText = 'Submit';
+
+    form.append(
+        nameInput,
+        descInput,
+        dueLabel,
+        submit
+    );
+    return form;
+}
+
 export function todoDOM() {
     document.querySelector('.main-body').innerHTML = '';
     const todoList = getTodos();
@@ -150,3 +204,4 @@ export function addTodoDOM() {
     });
     return newTodoButton;
 }
+

@@ -2,7 +2,7 @@ import './styles.css';
 import {
     titleComponent,
     newProjectComponent,
-    sidebarComponent, todoDialogueComponent,
+    sidebarComponent, todoDialogueComponent, editTodoComponent,
 } from './init.js';
 import Project from './project.js';
 
@@ -29,11 +29,13 @@ import Project from './project.js';
     mainBody.classList.add('main-body');
 
     const newTodoDialogue = todoDialogueComponent();
+    const editTodoDialogue = editTodoComponent();
     const overlay = document.createElement('div');
     overlay.classList.add('overlay');
     overlay.addEventListener('click', () => {
         overlay.classList.remove('active');
         newTodoDialogue.classList.remove('active');
+        editTodoDialogue.classList.remove('active');
     });
 
     body.append(
@@ -41,6 +43,7 @@ import Project from './project.js';
         sidebar,
         mainBody,
         newTodoDialogue,
+        editTodoDialogue,
         overlay
     );
 

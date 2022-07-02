@@ -45,6 +45,7 @@ export default function Project(title, description) {
         projectDOM();
     }
 
+
     let newProject = { getDOM, addTodo, completeTodo, getTitle, projectDOM };
     projects.push(newProject);
 
@@ -67,7 +68,7 @@ export function addToProject() {
     let activeProject = document.querySelector('.sidebar-selector.active');
 
     let form = document.querySelector('#new-todo-form');
-    let name = form.elements['name-input'].value
+    let name = form.elements['name-input'].value;
     let description = form.elements['description-input'].value || 'New Todo';
     let due = form.elements['due-input'].value.split('-');
     let year = due[0];
