@@ -3,9 +3,11 @@ import {addTodoDOM, todoDOM} from "./init";
 
 let projects = [];
 
-export default function Project(title, description) {
+export default function Project(t, d = 'New Project') {
 
     let todos = [];
+    let title = t;
+    let description = d || 'New Project';
 
     let getTitle = function() { return title; };
     let setTitle = function(newTitle) { title = newTitle; };
@@ -21,8 +23,8 @@ export default function Project(title, description) {
     let getDOM = function () {
         let projectBlock = document.createElement('div');
         projectBlock.classList.add('project');
-        projectBlock.classList.add('sidebar-selector')
-        projectBlock.addEventListener('click', activate.bind(projectBlock))
+        projectBlock.classList.add('sidebar-selector');
+        projectBlock.addEventListener('click', activate.bind(projectBlock));
         projectBlock.addEventListener('click', projectDOM);
         projectBlock.innerText = getTitle();
         return projectBlock;
@@ -33,8 +35,19 @@ export default function Project(title, description) {
         const todoList = getTodos();
         todoList.sort((x,y) => x.dueDate().getTime() < y.dueDate().getTime() ? -1 : 1);
 
+        let descDiv = document.createElement('div');
+        descDiv.classList.add('description');
+        descDiv.innerText = description;
+
+        let topRow = document.createElement('div');
+        topRow.classList.add('project-header');
+
         let newTodoButton = addTodoDOM();
-        content.append(newTodoButton);
+        topRow.append(
+            descDiv,
+            newTodoButton
+        );
+        content.append(topRow);
         for (let item of todoList) {
             content.append(item.getDOM());
         }
@@ -73,7 +86,7 @@ export function addToProject() {
     let due = form.elements['due-input'].value.split('-');
     let year = due[0];
     let month = due[1] - 1;
-    let date = due[2] - 1;
+    let date = due[2];
 
     if (activeProject.innerText === 'Todo') {
         let newTodo = Todo(name, new Date(year, month, date));

@@ -1,10 +1,13 @@
 import './styles.css';
 import {
     titleComponent,
-    newProjectComponent,
-    sidebarComponent, todoDialogueComponent, editTodoComponent,
+    newProjectButtonComponent,
+    sidebarComponent,
+    todoDialogueComponent,
+    newProjectComponent
 } from './init.js';
 import Project from './project.js';
+import {getTodos} from "./todo";
 
 (function init() {
     const body = document.querySelector('body');
@@ -12,7 +15,7 @@ import Project from './project.js';
     topDiv.classList.add('top-div');
     topDiv.append(
         titleComponent(),
-        newProjectComponent()
+        newProjectButtonComponent()
     );
 
     const sidebar = sidebarComponent();
@@ -29,13 +32,15 @@ import Project from './project.js';
     mainBody.classList.add('main-body');
 
     const newTodoDialogue = todoDialogueComponent();
-    const editTodoDialogue = editTodoComponent();
+    const newProjectDialogue = newProjectComponent();
     const overlay = document.createElement('div');
     overlay.classList.add('overlay');
     overlay.addEventListener('click', () => {
         overlay.classList.remove('active');
         newTodoDialogue.classList.remove('active');
-        editTodoDialogue.classList.remove('active');
+        newProjectDialogue.classList.remove('active');
+        let editBoxes = document.querySelectorAll('.edit-todo-component');
+        for (let eb of editBoxes) { eb.classList.remove('active'); };
     });
 
     body.append(
@@ -43,9 +48,11 @@ import Project from './project.js';
         sidebar,
         mainBody,
         newTodoDialogue,
-        editTodoDialogue,
+        newProjectDialogue,
         overlay
     );
+
+    getTodos().forEach(t => body.append(t.dialogue));
 
 })();
 
