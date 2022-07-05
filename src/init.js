@@ -1,4 +1,4 @@
-import {activate, addToProject} from './project.js';
+import Project, {activate, addToProject} from './project.js';
 import { getTodos } from './todo.js';
 
 export function titleComponent() {
@@ -24,7 +24,7 @@ export function titleComponent() {
     return logo;
 }
 
-export function newProjectComponent() {
+export function newProjectButtonComponent() {
     const newProjectButton = document.createElement('div');
     newProjectButton.classList.add('new-project-button');
     const newProjectSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -41,6 +41,10 @@ export function newProjectComponent() {
         newProjectSvg,
         newProjectText
     );
+    newProjectButton.addEventListener('click', () => {
+        document.querySelector('#new-project-component').classList.add('active');
+        document.querySelector('.overlay').classList.add('active');
+    })
 
     return newProjectButton;
 }
@@ -102,8 +106,8 @@ export function todoDialogueComponent() {
 
     const submit = document.createElement('button');
     submit.type = 'submit';
-    submit.id = 'submit-button';
-    submit.innerText = 'Submit';
+    submit.id = 'todo-submit-button';
+    submit.innerText = 'Create';
 
     form.append(
         nameInput,
@@ -127,7 +131,7 @@ export function todoDialogueComponent() {
 
 export function editTodoComponent() {
     const dialogue = document.createElement('div');
-    dialogue.id = 'edit-todo-component';
+    dialogue.classList.add('edit-todo-component');
 
     const header = document.createElement('h1');
     header.classList.add('edit-todo-header');
@@ -144,7 +148,7 @@ export function editTodoComponent() {
 
 export function editForm() {
     const form = document.createElement('form');
-    form.id = 'edit-todo-form';
+    form.classList.add('edit-todo-form');
 
     const nameInput = document.createElement('input');
     nameInput.type = 'text';
@@ -160,15 +164,14 @@ export function editForm() {
     dueInput.id = 'edit-due-input';
     dueInput.required = true;
     const dueLabel = document.createElement('label');
-    dueLabel.htmlFor = 'edit-due-input';
     dueLabel.id = 'edit-due-input-label';
     dueLabel.innerText = 'Due Date:';
     dueLabel.append(dueInput);
 
     const submit = document.createElement('button');
     submit.type = 'submit';
-    submit.id = 'submit-button';
-    submit.innerText = 'Submit';
+    submit.id = 'edit-submit-button';
+    submit.innerText = 'Edit';
 
     form.append(
         nameInput,
@@ -184,8 +187,21 @@ export function todoDOM() {
     const todoList = getTodos();
     todoList.sort((x,y) => x.dueDate().getTime() < y.dueDate().getTime() ? -1 : 1);
 
+    let descDiv = document.createElement('div');
+    descDiv.classList.add('description');
+    descDiv.innerText = 'List of all active Todos';
+
+    let topRow = document.createElement('div');
+    topRow.classList.add('project-header');
+
+    let newTodoButton = addTodoDOM();
+    topRow.append(
+        descDiv,
+        newTodoButton
+    );
+
     const content = document.querySelector('.main-body');
-    content.append(addTodoDOM());
+    content.append(topRow);
     for (let item of todoList) {
         content.append(item.getDOM());
     }
@@ -205,3 +221,54 @@ export function addTodoDOM() {
     return newTodoButton;
 }
 
+export function newProjectComponent() {
+    const dialogue = document.createElement('div');
+    dialogue.id = 'new-project-component';
+
+    const header = document.createElement('h1');
+    header.classList.add('new-project-header');
+    header.innerText = 'New Project Item';
+
+    const form = document.createElement('form');
+    form.id = 'new-project-form';
+
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.id = 'new-project-input';
+    nameInput.required = true;
+    nameInput.placeholder = 'Name';
+
+    const descInput = document.createElement('textarea');
+    descInput.id = 'description-input';
+    descInput.rows = 2;
+    descInput.placeholder = 'Description';
+
+    const submit = document.createElement('button');
+    submit.type = 'submit';
+    submit.id = 'project-submit-button';
+    submit.innerText = 'Create';
+
+    form.append(
+        nameInput,
+        descInput,
+        submit
+    );
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let name = form.elements['new-project-input'].value;
+        let desc = form.elements['description-input'].value;
+        document.querySelector('.sidebar').appendChild(Project(name, desc).getDOM());
+        form.reset();
+        dialogue.classList.remove('active');
+        document.querySelector('.overlay').classList.remove('active');
+    });
+
+    dialogue.append(
+        header,
+        form
+    );
+
+    return dialogue;
+
+}

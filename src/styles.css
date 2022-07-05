@@ -113,6 +113,19 @@ body * {
     background-color: #eeeeee;
 }
 
+.project-header {
+    display: flex;
+    align-items: center;
+}
+
+.description {
+    color: #444444;
+    padding: 4px;
+    font-size: 14px;
+    margin: 2px 4px 4px 4px;
+    flex: 1;
+}
+
 .new-todo {
     border: 1px solid forestgreen;
     height: 30px;
@@ -173,7 +186,8 @@ body * {
 }
 
 #new-todo-component,
-#edit-todo-component {
+.edit-todo-component,
+#new-project-component {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -185,7 +199,8 @@ body * {
 }
 
 #new-todo-component.active,
-#edit-todo-component.active {
+.edit-todo-component.active,
+#new-project-component.active {
     transition: 0.3s;
     transform: translate(-50%, -50%) scale(1);
     z-index: 1;
@@ -200,7 +215,8 @@ body * {
 }
 
 .new-todo-header,
-.edit-todo-header {
+.edit-todo-header,
+.new-project-header {
     text-align: center;
     margin-top: 8px;
 }
@@ -212,7 +228,8 @@ form * {
 #name-input,
 #description-input,
 #edit-name-input,
-#edit-description-input {
+#edit-description-input,
+#new-project-input {
     font-size: 18px;
     width: 280px;
     padding: 10px;
@@ -238,7 +255,9 @@ form * {
     border-radius: 8px;
 }
 
-#submit-button {
+#todo-submit-button,
+#edit-submit-button,
+#project-submit-button {
     margin-top: 12px;
     font-size: 20px;
     width: 100%;
