@@ -260,10 +260,7 @@ export function newProjectComponent() {
         let name = form.elements['new-project-input'].value;
         let desc = form.elements['description-input'].value;
         document.querySelector('.sidebar').appendChild(Project(name, desc).getDOM());
-<<<<<<< HEAD
         saveStorage();
-=======
->>>>>>> dfefdbd16bd0d458256f8d98d8d9313bd97f3591
         form.reset();
         dialogue.classList.remove('active');
         document.querySelector('.overlay').classList.remove('active');
