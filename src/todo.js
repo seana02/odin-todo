@@ -1,5 +1,6 @@
 import {activate} from "./project";
 import {editForm, editTodoComponent, todoDOM} from "./init";
+import {saveStorage} from "./index";
 
 let todos = [];
 
@@ -10,13 +11,26 @@ export default function Todo(t, d, p= null) {
     let due = d;
     let project = p;
     let dialogue = editTodoComponent();
+    document.querySelector('body').append(dialogue);
 
     let dueDate = function() { return due; };
     let setDue = function(newDue) { due = newDue; };
     let getTitle = function() { return title; };
     let setTitle = function(newTitle) { title = newTitle; };
     let setDesc = function(newDesc) { description = newDesc; };
+    let getDesc = function() { return description; };
     let getProject = function() { return project; };
+    let deleteTodo = function() {
+        let index = todos.indexOf(this);
+        todos.splice(index, 1);
+
+        if (this.getProject() === null) {
+            saveStorage();
+            todoDOM();
+        } else {
+            getProject().completeTodo(this);
+        }
+    }
     let getDOM = function() {
         let elem = document.createElement('div');
         elem.classList.add('todo-block');
@@ -38,7 +52,7 @@ export default function Todo(t, d, p= null) {
         let completeButton = document.createElement('button');
         completeButton.classList.add('todo-complete');
         completeButton.innerText = '✓';
-        completeButton.addEventListener('click', () => getProject().completeTodo(this));
+        completeButton.addEventListener('click', deleteTodo.bind(this));
         let editButton = document.createElement('button');
         editButton.classList.add('todo-edit');
         editButton.innerText = 'Edit';
@@ -91,6 +105,7 @@ export default function Todo(t, d, p= null) {
             getProject().projectDOM();
         }
         form.reset();
+        saveStorage();
         document.querySelector('.overlay').classList.remove('active');
         dialogue.classList.remove('active');
     }
@@ -99,7 +114,7 @@ export default function Todo(t, d, p= null) {
         editSubmit();
     });
 
-    let newTodo = { dueDate, getDOM, getTitle, getProject, setDesc, dialogue };
+    let newTodo = { dueDate, getDOM, getTitle, getProject, setDesc, getDesc, deleteTodo, dialogue };
 
     todos.push(newTodo);
     return newTodo;

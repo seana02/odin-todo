@@ -1,5 +1,6 @@
 import Todo, { getTodos } from './todo.js';
-import {addTodoDOM, todoDOM} from "./init";
+import {addTodoDOM, sidebarComponent, todoDOM} from "./init";
+import {saveStorage} from "./index";
 
 let projects = [];
 
@@ -43,9 +44,15 @@ export default function Project(t, d = 'New Project') {
         topRow.classList.add('project-header');
 
         let newTodoButton = addTodoDOM();
+        let deleteProjectButton = document.createElement('div');
+        deleteProjectButton.classList.add('delete-project-button');
+        deleteProjectButton.innerText = 'Del';
+        deleteProjectButton.addEventListener('click', delProj );
+
         topRow.append(
             descDiv,
-            newTodoButton
+            newTodoButton,
+            deleteProjectButton
         );
         content.append(topRow);
         for (let item of todoList) {
@@ -55,11 +62,33 @@ export default function Project(t, d = 'New Project') {
     let completeTodo = function(todo) {
         let index = todos.indexOf(todo);
         todos.splice(index, 1);
-        projectDOM();
+        saveStorage();
+
+        if (document.querySelector('.sidebar-selector.active').innerText === 'Todo') {
+            todoDOM();
+        } else {
+            projectDOM();
+        }
+    }
+    let delProj = function() {
+        for (let i = todos.length - 1; i >= 0; i--) {
+            todos[i].deleteTodo();
+        }
+        let that = findProject(getTitle());
+        projects.splice(projects.indexOf(that), 1);
+        saveStorage();
+
+        let sidebarReplacement = sidebarComponent();
+        for (let p of projects) {
+            sidebarReplacement.appendChild(p.getDOM());
+        }
+        document.querySelector('body').replaceChild(sidebarReplacement, document.querySelector('.sidebar'));
+        activate.apply(document.querySelector('.sidebar-todo'));
+        todoDOM();
     }
 
 
-    let newProject = { getDOM, addTodo, completeTodo, getTitle, projectDOM };
+    let newProject = { getDOM, addTodo, completeTodo, getTitle, projectDOM, getDescription, getTodos };
     projects.push(newProject);
 
     return newProject;
@@ -101,10 +130,10 @@ export function addToProject() {
     form.reset();
     document.querySelector('.overlay').classList.remove('active');
     document.querySelector('#new-todo-component').classList.remove('active');
-
+    saveStorage();
 }
 
-function findProject(name) {
+export function findProject(name) {
     for (let p of projects) {
         if (p.getTitle() === name) {
             return p;

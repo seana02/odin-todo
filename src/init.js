@@ -1,5 +1,6 @@
 import Project, {activate, addToProject} from './project.js';
 import { getTodos } from './todo.js';
+import {saveStorage} from "./index";
 
 export function titleComponent() {
     const topDiv = document.createElement('div');
@@ -259,6 +260,7 @@ export function newProjectComponent() {
         let name = form.elements['new-project-input'].value;
         let desc = form.elements['description-input'].value;
         document.querySelector('.sidebar').appendChild(Project(name, desc).getDOM());
+        saveStorage();
         form.reset();
         dialogue.classList.remove('active');
         document.querySelector('.overlay').classList.remove('active');
