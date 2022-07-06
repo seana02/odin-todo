@@ -44,7 +44,7 @@ import Todo, {getTodos} from "./todo";
         newTodoDialogue.classList.remove('active');
         newProjectDialogue.classList.remove('active');
         let editBoxes = document.querySelectorAll('.edit-todo-component');
-        for (let eb of editBoxes) { eb.classList.remove('active'); };
+        for (let eb of editBoxes) { eb.classList.remove('active'); }
     });
 
     body.append(
@@ -56,10 +56,10 @@ import Todo, {getTodos} from "./todo";
         overlay
     );
 
-
     reloadProjects();
     activate.apply(document.querySelector('.sidebar-todo'));
     todoDOM();
+
 })();
 
 export function saveStorage() {
