@@ -169,14 +169,16 @@ body * {
     border: 1px solid #aaaaaa;
     padding: 4px;
     display: grid;
-    grid-template-columns: calc(100% - 135px) 135px;
+    grid-template-columns: calc(100% - 200px) 200px;
     gap: 4px;
     margin: 4px 0;
 }
 
 .todo-due {
     text-align: end;
-    margin-right: 8px;
+    padding-right: 8px;
+    margin-right: 6px;
+    border-radius:4px;
 }
 
 .todo-buttons {

@@ -1,6 +1,6 @@
-import Todo, { getTodos } from './todo.js';
 import {addTodoDOM, sidebarComponent, todoDOM} from "./init";
 import {saveStorage} from "./index";
+import Todo from "./todo";
 
 let projects = [];
 

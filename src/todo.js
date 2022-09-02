@@ -43,6 +43,11 @@ export default function Todo(t, d, p= null) {
         let month = getMonthString(dueDate().getMonth());
         let day = dueDate().getDate();
         date.innerText = `${month} ${day}, ${year}`;
+        if ((dueDate() - new Date())/(1000.0 * 3600 * 24) < 1) {
+            date.style.backgroundColor = "red";
+        } else if (Math.floor(dueDate() - new Date())/(1000.0 * 3600 * 24) === 1) {
+            date.style.backgroundColor = "orange";
+        }
         let desc = document.createElement('div');
         desc.classList.add('todo-description');
         desc.innerText = description;
